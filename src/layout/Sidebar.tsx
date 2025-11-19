@@ -1,10 +1,10 @@
 import React from 'react';
-import { Home, MessageSquare, ListTodo, Users, Calendar, Settings } from 'lucide-react';
-
+import styled, { css } from 'styled-components';
+import { Settings } from 'lucide-react'; 
 
 interface NavItem {
   name: string;
-  icon: React.ElementType; 
+  icon: React.ElementType<{ className?: string }>; 
   count: number;
   active: boolean;
   url: string;
@@ -16,89 +16,149 @@ interface Friend {
   avatar: string;
 }
 
-
 interface SidebarProps {
-    navItems: NavItem[];
-    friends: Friend[];
+  navItems: NavItem[];
+  friends: Friend[];
 }
+
+const SidebarContainer = styled.div`
+  width: 288px; /* w-72 */
+  background-color: white; /* bg-white */
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #f3f4f6; /* border-r border-gray-100 */
+  min-height: 100vh;
+`;
+
+const LogoSection = styled.div`
+  padding: 1.5rem; /* p-6 */
+  border-bottom: 1px solid #f3f4f6; /* border-b border-gray-100 */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space-x-2 */
+`;
+
+const NavSection = styled.nav`
+  flex: 1; /* flex-1 */
+  padding: 1rem; /* p-4 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* space-y-2 */
+`;
+
+const NavItemLink = styled.a<{ active: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem; /* p-3 */
+  border-radius: 0.75rem; /* rounded-xl */
+  transition: all 200ms ease;
+  text-decoration: none;
+
+  ${props =>
+    props.active
+      ? css`
+          background-color: black;
+          color: white;
+          font-weight: 600; /* font-semibold */
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-lg */
+        `
+      : css`
+          color: #4b5563; /* text-gray-600 */
+          &:hover {
+            background-color: #f3f4f6; /* hover:bg-gray-100 */
+            color: #111827; /* hover:text-gray-900 */
+          }
+        `}
+`;
+
+const NavCountBadge = styled.span<{ active: boolean }>`
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 500; /* font-medium */
+  padding: 0.125rem 0.5rem; /* px-2 py-0.5 */
+  border-radius: 9999px; /* rounded-full */
+  
+  ${props =>
+    props.active
+      ? css`
+          background-color: white;
+          color: black;
+        `
+      : css`
+          background-color: #ef4444; /* bg-red-500 */
+          color: white;
+        `}
+`;
+
+const FriendsSection = styled.div`
+  padding: 1rem; /* p-4 */
+  border-top: 1px solid #f3f4f6; /* border-t border-gray-100 */
+`;
+
+const ChatBox = styled.div`
+    background-color: #f9fafb; /* bg-gray-50 */
+    padding: 1rem; /* p-4 */
+    border-radius: 0.75rem; /* rounded-xl */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+`;
+
 
 const Sidebar: React.FC<SidebarProps> = ({ navItems, friends }) => {
   return (
-    <div className="w-72 bg-white flex flex-col border-r border-gray-100 min-h-screen">
+    <SidebarContainer>
       
       {/* 1. Logo e Título (Topo) */}
-      <div className="p-6 border-b border-gray-100">
-        {/*  Conteúdo do Logo  */}
-        <div className="flex items-center space-x-2">
-          <Settings className="w-6 h-6 text-gray-800" /> 
-          <span className="text-xl font-bold text-gray-900">TaskMaster.</span>
-        </div>
-      </div>
+      <LogoSection>
+        <Settings className="w-6 h-6" style={{ color: '#1f2937' }} /> {}
+        <span style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#111827' }}>TaskMaster.</span>
+      </LogoSection>
 
       {/* 2. Links de Navegação */}
-      <nav className="flex-1 p-4 space-y-2">
+      <NavSection>
         {navItems.map((item) => (
+          <NavItemLink
+            key={item.name}
+            href={item.url}
+            active={item.active} 
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}> {}
+              <item.icon style={{ width: '1.25rem', height: '1.25rem' }} /> {}
+              <span>{item.name}</span>
+            </div>
             
-            <a
-                key={item.name}
-                href={item.url}
-                className={`flex items-center justify-between p-3 rounded-xl transition-colors duration-200
-                ${item.active 
-                    ? 'bg-black text-white font-semibold shadow-lg' 
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`
-                }
-            >
-                <div className="flex items-center space-x-3">
-                    <item.icon className="w-5 h-5" />
-                    <span>{item.name}</span>
-                </div>
-                {item.count > 0 && (
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full 
-                    ${item.active ? 'bg-white text-black' : 'bg-red-500 text-white'}`
-                    }>
-                    {item.count}
-                    </span>
-                )}
-            </a>
+            {item.count > 0 && (
+              <NavCountBadge active={item.active}>
+                {item.count}
+              </NavCountBadge>
+            )}
+          </NavItemLink>
         ))}
-      </nav>
+      </NavSection>
 
-      {/* 3. Seção Amigos e Chat */}
-      <div className="p-4 border-t border-gray-100">
-        <h3 className="text-sm font-semibold text-gray-500 mb-3">FRIENDS</h3>
-        <div className="space-y-3 mb-6">
+      {}
+      <FriendsSection>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: '#6b7280', marginBottom: '0.75rem' }}>FRIENDS</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}> {}
           {friends.map((friend, index) => (
-            
-            <div key={index} className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="relative">
-                  <img src={friend.avatar} alt={friend.name} className="w-10 h-10 rounded-full object-cover" />
-                  <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
+            <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <div style={{ position: 'relative' }}>
+                  <img src={friend.avatar} alt={friend.name} style={{ width: '2.5rem', height: '2.5rem', borderRadius: '50%', objectFit: 'cover' }} />
+                  <span style={{ position: 'absolute', bottom: 0, right: 0, width: '0.75rem', height: '0.75rem', backgroundColor: '#10b981', borderRadius: '50%', border: '2px solid white' }}></span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">{friend.name}</p>
-                  <p className="text-xs text-gray-500">online</p>
+                  <p style={{ fontSize: '0.875rem', fontWeight: 500, color: '#111827' }}>{friend.name}</p>
+                  <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>online</p>
                 </div>
               </div>
-              <span className="text-xs font-medium bg-red-500 text-white px-2 py-0.5 rounded-full">+2</span>
+              <span style={{ fontSize: '0.75rem', fontWeight: 500, backgroundColor: '#ef4444', color: 'white', padding: '0.125rem 0.5rem', borderRadius: '9999px' }}>+2</span>
             </div>
           ))}
         </div>
-
-        {/* Chat de Michie */}
-        {}
-        <div className="bg-gray-50 p-4 rounded-xl space-y-2">
-            <p className="text-sm font-semibold">Michie 👋</p>
-            <div className="text-xs text-gray-600">
-                <p>Today we will move on to the wireframe process</p>
-                <p className="text-right text-gray-400 mt-1">12:30</p>
-            </div>
-            <button className="w-full text-center py-2 bg-black text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-colors">
-                Okay Michie
-            </button>
-        </div>
-      </div>
-    </div>
+      </FriendsSection>
+    </SidebarContainer>
   );
 };
 
