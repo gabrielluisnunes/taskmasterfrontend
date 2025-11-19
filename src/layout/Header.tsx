@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Search, Calendar, Bell } from 'lucide-react';
+import { useAppStore } from '../store/useAppStore';
 
 
 const HeaderContainer = styled.header`
@@ -100,6 +101,8 @@ const Avatar = styled.img`
     object-fit: cover;
     border: 2px solid black; 
 `;
+
+const 
 
 const Header: React.FC = () => {
     return (
