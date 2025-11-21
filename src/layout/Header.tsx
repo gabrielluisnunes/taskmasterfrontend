@@ -1,24 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Search, Calendar, Bell } from 'lucide-react';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../store/useAppStore'; 
+
 
 
 const HeaderContainer = styled.header`
     background-color: white; 
-    padding: 1rem 2rem; 
+    padding: 1rem 2rem;
     border-bottom: 1px solid #e5e7eb; 
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    height: 80px; /* Altura fixa para alinhar com o design */
 `;
 
 const SearchBar = styled.div`
     flex-grow: 1; 
     max-width: 400px; 
-    margin-right: 2rem; 
+    margin-right: 2rem;
     position: relative;
+    /* Ajuste para garantir que o SearchBar alinhe bem no centro do Header */
+    display: flex;
+    align-items: center;
 `;
 
 const SearchInput = styled.input`
@@ -40,7 +45,8 @@ const SearchInput = styled.input`
     }
 `;
 
-const SearchIcon = styled(Search)`
+
+const SearchIconWrapper = styled(Search)`
     position: absolute;
     left: 1rem;
     top: 50%;
@@ -66,10 +72,31 @@ const ActionButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-
+    position: relative;
+    
     &:hover {
         background-color: #e5e7eb; 
     }
+`;
+
+
+const IconStyle = styled.div`
+    width: 1.25rem; 
+    height: 1.25rem; 
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const NotificationBadge = styled.span`
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #ef4444; 
+    border-radius: 50%;
 `;
 
 const UserProfile = styled.div`
@@ -102,15 +129,17 @@ const Avatar = styled.img`
     border: 2px solid black; 
 `;
 
-const 
 
 const Header: React.FC = () => {
+    const { user, notificationsCount } = useAppStore(); 
+
     return (
         <HeaderContainer>
             
             {}
             <SearchBar>
-                <SearchIcon />
+                {}
+                <SearchIconWrapper />
                 <SearchInput placeholder="Start searching here..." />
             </SearchBar>
 
@@ -118,23 +147,23 @@ const Header: React.FC = () => {
             <ActionGroup>
                 {}
                 <ActionButton>
-                    <Calendar style={{ width: '1.25rem', height: '1.25rem', color: '#6b7280' }} />
+                    <IconStyle><Calendar /></IconStyle>
                 </ActionButton>
                 
                 {}
                 <ActionButton>
-                    <Bell style={{ width: '1.25rem', height: '1.25rem', color: '#6b7280' }} />
+                    <IconStyle><Bell /></IconStyle>
+                    {notificationsCount > 0 && <NotificationBadge />}
                 </ActionButton>
             </ActionGroup>
 
             {}
             <UserProfile>
                 <UserDetails>
-                    {}
-                    <p>Kim So Men</p> 
-                    <span>UI/UX Designer</span>
+                    <p>{user.name}</p> 
+                    <span>{user.title}</span>
                 </UserDetails>
-                <Avatar src="https://i.pravatar.cc/150?img=5" alt="User Avatar" />
+                <Avatar src={user.avatarUrl} alt="User Avatar" />
             </UserProfile>
 
         </HeaderContainer>

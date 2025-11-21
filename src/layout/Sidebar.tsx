@@ -23,35 +23,35 @@ interface SidebarProps {
 
 const SidebarContainer = styled.div`
   width: 288px; /* w-72 */
-  background-color: white; /* bg-white */
+  background-color: white; 
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #f3f4f6; /* border-r border-gray-100 */
+  border-right: 1px solid #f3f4f6; 
   min-height: 100vh;
 `;
 
 const LogoSection = styled.div`
-  padding: 1.5rem; /* p-6 */
-  border-bottom: 1px solid #f3f4f6; /* border-b border-gray-100 */
+  padding: 1.5rem; 
+  border-bottom: 1px solid #f3f4f6; 
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* space-x-2 */
+  gap: 0.5rem; 
 `;
 
 const NavSection = styled.nav`
-  flex: 1; /* flex-1 */
-  padding: 1rem; /* p-4 */
+  flex: 1; 
+  padding: 1rem; 
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* space-y-2 */
+  gap: 0.5rem; 
 `;
 
 const NavItemLink = styled.a<{ active: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem; /* p-3 */
-  border-radius: 0.75rem; /* rounded-xl */
+  padding: 0.75rem; 
+  border-radius: 0.75rem; 
   transition: all 200ms ease;
   text-decoration: none;
 
@@ -60,23 +60,23 @@ const NavItemLink = styled.a<{ active: boolean }>`
       ? css`
           background-color: black;
           color: white;
-          font-weight: 600; /* font-semibold */
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-lg */
+          font-weight: 600; 
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); 
         `
       : css`
-          color: #4b5563; /* text-gray-600 */
+          color: #4b5563; 
           &:hover {
-            background-color: #f3f4f6; /* hover:bg-gray-100 */
-            color: #111827; /* hover:text-gray-900 */
+            background-color: #f3f4f6; 
+            color: #111827; 
           }
         `}
 `;
 
 const NavCountBadge = styled.span<{ active: boolean }>`
-  font-size: 0.75rem; /* text-xs */
-  font-weight: 500; /* font-medium */
-  padding: 0.125rem 0.5rem; /* px-2 py-0.5 */
-  border-radius: 9999px; /* rounded-full */
+  font-size: 0.75rem; 
+  font-weight: 500; 
+  padding: 0.125rem 0.5rem; 
+  border-radius: 9999px; 
   
   ${props =>
     props.active
@@ -85,24 +85,17 @@ const NavCountBadge = styled.span<{ active: boolean }>`
           color: black;
         `
       : css`
-          background-color: #ef4444; /* bg-red-500 */
+          background-color: #ef4444; 
           color: white;
         `}
 `;
 
 const FriendsSection = styled.div`
-  padding: 1rem; /* p-4 */
-  border-top: 1px solid #f3f4f6; /* border-t border-gray-100 */
+  padding: 1rem; 
+  border-top: 1px solid #f3f4f6; 
 `;
 
-const ChatBox = styled.div`
-    background-color: #f9fafb; /* bg-gray-50 */
-    padding: 1rem; /* p-4 */
-    border-radius: 0.75rem; /* rounded-xl */
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-`;
+
 
 
 const Sidebar: React.FC<SidebarProps> = ({ navItems, friends }) => {

@@ -1,6 +1,6 @@
 import React, { type ReactNode } from 'react'; 
 import styled from 'styled-components'; 
-import Sidebar from './Sidebar';
+import Sidebar from './SideBar';
 import Header from './Header'; 
 import { Home, MessageSquare, ListTodo, Users, Calendar } from 'lucide-react'; 
 
@@ -58,13 +58,13 @@ const MainContent = styled.main`
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <MainContainer>
-      {/* Passando os dados para o Sidebar */}
+      {}
       <Sidebar 
           navItems={tempNavItems} 
           friends={tempFriends} 
       /> 
       
-      {/* Área de Conteúdo Principal */}
+      {}
       <ContentWrapper>
         <Header /> 
         <MainContent>
